@@ -1,27 +1,34 @@
-import { useState,useEffect } from "react";
+import { useState } from "react";
 import Editor from "./components/Editor";
 import NoteList from "./components/NoteList";
 import NoteView from "./pages/NoteView";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-const App = ()=>{
-  const[notes,setNotes]=useState(()=>
-  JSON.parse(localStorage.getItem("notes"))|| []);
-  const [selcted,setSelected]=
-  useState(null);
-  const saveNote=(cipher)=>{
-    const updated=[...notes,cipher];
-    setNotes(updated);
-    localStorage.setItem("notes",JSON.stringify(updated));
+
+const App = () => {
+  const [selected, setSelected] = useState(null);
+  const [refresh, setRefresh] = useState(false); // triggers NoteList to reload
+
+  const handleSave = () => {
+    setRefresh((prev) => !prev); // toggle to force NoteList re-render
   };
-return(
-  <div className="max-w-3xl mx-auto p-4">
-    <h1 className="text-3xl font-bold mb-4 text-purple-700">SecureNotes</h1>
-    <Editor onSave={saveNote}/>
-    <NoteList notes={notes} onSelect={setSelected}/>
-    {selcted && <NoteView cipher={selcted}/>}
-    <ToastContainer/>
-  </div>
-);
+
+  return (
+    <div className="max-w-3xl mx-auto p-4 min-h-screen bg-gray-50">
+      <h1 className="text-3xl font-bold mb-4 text-purple-700 text-center">🔐 SecureNotes</h1>
+
+      {!selected ? (
+        <>
+          <Editor onSave={handleSave} />
+          <NoteList key={refresh} onOpen={setSelected} />
+        </>
+      ) : (
+        <NoteView cipher={selected} onBack={() => setSelected(null)} />
+      )}
+
+      <ToastContainer />
+    </div>
+  );
 };
+
 export default App;
