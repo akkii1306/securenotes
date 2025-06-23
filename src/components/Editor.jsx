@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { encryptNote } from "../utils/crypto";
 import { toast } from "react-toastify";
+import zxcvbn from "zxcvbn";
 
 const Editor = ({ onSave }) => {
   const [title, setTitle] = useState("");
@@ -18,12 +19,16 @@ const Editor = ({ onSave }) => {
 
     localStorage.setItem(`note-${noteId}`, data);
 
-    onSave(); // to refresh list
+    onSave(); // trigger list refresh
     setTitle("");
     setText("");
     setPassword("");
     toast.success("Note saved securely!");
   };
+
+  const strength = zxcvbn(password);
+  const strengthLevel = ["Very Weak", "Weak", "Fair", "Good", "Strong"];
+  const strengthColor = ["bg-red-400", "bg-orange-400", "bg-yellow-400", "bg-blue-400", "bg-green-500"];
 
   return (
     <div className="p-4 space-y-4">
@@ -33,12 +38,14 @@ const Editor = ({ onSave }) => {
         value={title}
         onChange={(e) => setTitle(e.target.value)}
       />
+
       <textarea
         className="w-full h-48 p-2 border"
         value={text}
         placeholder="Write your secure note here..."
         onChange={(e) => setText(e.target.value)}
       />
+
       <input
         className="border p-2 w-full"
         type="password"
@@ -46,6 +53,20 @@ const Editor = ({ onSave }) => {
         value={password}
         onChange={(e) => setPassword(e.target.value)}
       />
+
+      {/* Strength meter */}
+      {password && (
+        <div className="space-y-1">
+          <div className="w-full h-2 bg-gray-200 rounded">
+            <div
+              className={`h-2 rounded ${strengthColor[strength.score]}`}
+              style={{ width: `${(strength.score + 1) * 20}%` }}
+            ></div>
+          </div>
+          <p className="text-sm text-gray-600">Strength: {strengthLevel[strength.score]}</p>
+        </div>
+      )}
+
       <button
         onClick={handleSave}
         className="bg-purple-700 text-white px-4 py-2 rounded hover:bg-purple-800"

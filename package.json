@@ -16,7 +16,8 @@
     "react-dom": "^19.1.0",
     "react-markdown": "^10.1.0",
     "react-toastify": "^11.0.5",
-    "tailwindcss": "^4.1.10"
+    "tailwindcss": "^4.1.10",
+    "zxcvbn": "^4.4.2"
   },
   "devDependencies": {
     "@eslint/js": "^9.25.0",
