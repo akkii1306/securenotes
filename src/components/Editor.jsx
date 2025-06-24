@@ -6,43 +6,54 @@ import zxcvbn from "zxcvbn";
 const Editor = ({ onSave, user }) => {
   const [title, setTitle] = useState("");
   const [text, setText] = useState("");
+  const [tags, setTags] = useState("");
   const [password, setPassword] = useState("");
 
   const handleSave = () => {
     if (!title || !text || !password) {
-      return toast.error("Please fill in all fields");
+      return toast.error("Fill all fields");
     }
 
     const cipher = encryptNote(text, password);
     const noteId = Date.now().toString();
-    const data = JSON.stringify({ title, cipher });
+
+    const data = JSON.stringify({
+      title,
+      cipher,
+      tags: tags.split(",").map((tag) => tag.trim()).filter(Boolean),
+    });
 
     localStorage.setItem(`${user}-note-${noteId}`, data);
 
-    onSave(); // Notify parent to refresh notes
+    onSave();
     setTitle("");
     setText("");
+    setTags("");
     setPassword("");
-    toast.success("Note saved securely!");
+    toast.success("Note saved!");
   };
 
   const strength = zxcvbn(password);
-  const strengthText = ["Very Weak", "Weak", "Fair", "Good", "Strong"];
-  const strengthColor = ["bg-red-400", "bg-orange-400", "bg-yellow-400", "bg-blue-400", "bg-green-500"];
 
   return (
     <div className="p-4 space-y-4">
       <input
         className="border p-2 w-full"
-        placeholder="Note Title"
+        placeholder="Title"
         value={title}
         onChange={(e) => setTitle(e.target.value)}
       />
       <textarea
-        className="w-full h-48 p-2 border"
-        placeholder="Write your secure note here..."
+        className="border p-2 w-full h-40"
+        placeholder="Write your note..."
         value={text}
         onChange={(e) => setText(e.target.value)}
+      />
+      <input
+        className="border p-2 w-full"
+        placeholder="Tags (e.g., work, ideas)"
+        value={tags}
+        onChange={(e) => setTags(e.target.value)}
       />
       <input
         className="border p-2 w-full"
@@ -52,14 +63,8 @@ const Editor = ({ onSave, user }) => {
         onChange={(e) => setPassword(e.target.value)}
       />
       {password && (
-        <div className="space-y-1">
-          <div className="w-full h-2 bg-gray-200 rounded">
-            <div
-              className={`h-2 rounded ${strengthColor[strength.score]}`}
-              style={{ width: `${(strength.score + 1) * 20}%` }}
-            ></div>
-          </div>
-          <p className="text-sm text-gray-600">Strength: {strengthText[strength.score]}</p>
+        <div className="text-sm text-gray-600">
+          Password Strength: {["Very Weak", "Weak", "Fair", "Good", "Strong"][strength.score]}
         </div>
       )}
       <button
