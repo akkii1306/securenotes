@@ -36,25 +36,25 @@ const BackupManager = ({ user, onRefresh }) => {
           }
         });
 
-        toast.success(`Imported ${count} notes`);
+        toast.success(`✅ Imported ${count} notes`);
         onRefresh();
       } catch {
-        toast.error("Invalid or corrupted backup file");
+        toast.error("❌ Invalid or corrupted backup file");
       }
     };
     reader.readAsText(file);
   };
 
   return (
-    <div className="flex gap-4 mt-6">
+    <div className="flex flex-wrap gap-4 mt-6">
       <button
         onClick={handleExport}
-        className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+        className="bg-[#FF9898] text-white px-4 py-2 rounded shadow hover:bg-[#FF7C7C] transition"
       >
         📤 Export Notes
       </button>
 
-      <label className="bg-green-600 text-white px-4 py-2 rounded cursor-pointer hover:bg-green-700">
+      <label className="bg-[#FFD586] text-[#333] px-4 py-2 rounded shadow cursor-pointer hover:bg-[#FFC466] transition">
         📥 Import Notes
         <input
           ref={fileInputRef}
