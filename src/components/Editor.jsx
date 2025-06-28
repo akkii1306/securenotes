@@ -10,7 +10,7 @@ const Editor = ({ user, onSave, editNote, isEditing, onEditDone }) => {
   const [strength, setStrength] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [pinned, setPinned] = useState(false);
-  const [color, setColor] = useState("#F3F4F6"); // default light gray
+  const [color, setColor] = useState("#FFE99A"); // default yellow
 
   const generateStrongPassword = () => {
     const charset =
@@ -23,11 +23,8 @@ const Editor = ({ user, onSave, editNote, isEditing, onEditDone }) => {
   };
 
   useEffect(() => {
-    if (password) {
-      setStrength(checkStrength(password));
-    } else {
-      setStrength("");
-    }
+    if (password) setStrength(checkStrength(password));
+    else setStrength("");
   }, [password]);
 
   useEffect(() => {
@@ -36,7 +33,7 @@ const Editor = ({ user, onSave, editNote, isEditing, onEditDone }) => {
       setTitle(editNote.title);
       setTags(editNote.tags.join(", "));
       setPinned(editNote.pinned || false);
-      setColor(editNote.color || "#F3F4F6");
+      setColor(editNote.color || "#FFE99A");
     }
   }, [isEditing, editNote]);
 
@@ -49,9 +46,8 @@ const Editor = ({ user, onSave, editNote, isEditing, onEditDone }) => {
   };
 
   const handleSave = () => {
-    if (!text || !password || !title) {
+    if (!text || !password || !title)
       return toast.error("Please fill all fields");
-    }
 
     const cipher = encryptNote(text, password);
     const timestamp = new Date().toISOString();
@@ -70,118 +66,114 @@ const Editor = ({ user, onSave, editNote, isEditing, onEditDone }) => {
     };
 
     localStorage.setItem(noteId, JSON.stringify(noteData));
+    toast.success(isEditing ? "Note updated!" : "Note saved!");
+
+    // Reset
     setText("");
     setPassword("");
     setTitle("");
     setTags("");
     setStrength("");
     setPinned(false);
-    setColor("#F3F4F6");
-    toast.success(isEditing ? "Note updated!" : "Note saved!");
+    setColor("#FFE99A");
     onSave();
     if (isEditing) onEditDone();
   };
 
   return (
-    <div className="p-4 space-y-4 border rounded mb-4 bg-white shadow">
+    <div className="p-4 space-y-4 border rounded-xl shadow-md bg-white/10 backdrop-blur-md text-white">
       <input
-        className="w-full p-2 border rounded"
-        value={title}
+        className="w-full p-2 bg-white/10 rounded text-white border border-white/20"
         placeholder="Title"
+        value={title}
         onChange={(e) => setTitle(e.target.value)}
       />
+
       <textarea
-        className="w-full h-36 p-2 border rounded"
+        className="w-full h-36 p-2 bg-white/10 rounded text-white border border-white/20"
+        placeholder="Write your note..."
         value={text}
-        placeholder="Write your secure note here..."
         onChange={(e) => setText(e.target.value)}
       />
 
-      {/* Password Input */}
-      <div className="space-y-1">
+      {/* Password */}
+      <div>
         <div className="relative">
           <input
-            className="border p-2 w-full rounded pr-10"
             type={showPassword ? "text" : "password"}
-            placeholder="Encryption Password"
+            className="w-full p-2 pr-10 bg-white/10 text-white rounded border border-white/20"
+            placeholder="Encryption password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
           <button
             type="button"
-            className="absolute right-2 top-2 text-gray-500 hover:text-gray-700"
             onClick={() => setShowPassword((prev) => !prev)}
+            className="absolute top-2 right-3 text-white/70"
           >
             {showPassword ? "🙈" : "👁️"}
           </button>
         </div>
         <button
           onClick={() => setPassword(generateStrongPassword())}
-          className="text-sm text-blue-600 hover:underline"
+          className="text-xs mt-1 text-blue-300 hover:underline"
         >
           🔁 Generate Strong Password
         </button>
 
         {strength && (
-          <div className="flex items-center gap-4">
-            <div className="w-full h-2 rounded bg-gray-200 overflow-hidden">
+          <div className="flex items-center gap-2 mt-2">
+            <div className="w-full h-2 bg-white/20 rounded overflow-hidden">
               <div
-                className={`h-full transition-all duration-300 ${
+                className={`h-full ${
                   strength === "Weak"
-                    ? "bg-red-500 w-1/3"
+                    ? "bg-red-400 w-1/3"
                     : strength === "Medium"
-                    ? "bg-yellow-500 w-2/3"
-                    : "bg-green-500 w-full"
+                    ? "bg-yellow-400 w-2/3"
+                    : "bg-green-400 w-full"
                 }`}
               ></div>
             </div>
-            <span
-              className={`text-sm font-semibold ${
-                strength === "Weak"
-                  ? "text-red-500"
-                  : strength === "Medium"
-                  ? "text-yellow-500"
-                  : "text-green-600"
-              }`}
-            >
-              {strength}
-            </span>
+            <span className="text-sm">{strength}</span>
           </div>
         )}
       </div>
 
+      {/* Tags */}
       <input
-        className="border p-2 w-full rounded"
+        className="w-full p-2 bg-white/10 text-white rounded border border-white/20"
         placeholder="Tags (comma-separated)"
         value={tags}
         onChange={(e) => setTags(e.target.value)}
       />
 
-      <div className="flex items-center gap-2 text-sm">
-        <input
-          type="checkbox"
-          checked={pinned}
-          onChange={(e) => setPinned(e.target.checked)}
-        />
-        <label>📌 Pin this note</label>
-      </div>
+      {/* Pin + Color */}
+      <div className="flex items-center justify-between text-sm text-white/80">
+        <label>
+          <input
+            type="checkbox"
+            checked={pinned}
+            onChange={(e) => setPinned(e.target.checked)}
+            className="mr-1"
+          />
+          📌 Pin this note
+        </label>
 
-      {/* Color Picker */}
-      <div className="flex items-center gap-2 text-sm">
-        <label>🎨 Color:</label>
-        <input
-          type="color"
-          value={color}
-          onChange={(e) => setColor(e.target.value)}
-          className="w-8 h-8 p-0 border rounded"
-        />
+        <div className="flex items-center gap-2">
+          <span>🎨</span>
+          <input
+            type="color"
+            value={color}
+            onChange={(e) => setColor(e.target.value)}
+            className="w-6 h-6 rounded border"
+          />
+        </div>
       </div>
 
       <button
-        onClick={handleSave}
-        className="bg-purple-700 text-white px-4 py-2 rounded hover:bg-purple-800"
+        onClick={handleSave} className="button-29"
       >
-        Save Note
+        💾 Save Note
       </button>
     </div>
   );

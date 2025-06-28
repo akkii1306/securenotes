@@ -48,13 +48,12 @@ const BackupManager = ({ user, onRefresh }) => {
   return (
     <div className="flex flex-wrap gap-4 mt-6">
       <button
-        onClick={handleExport}
-        className="bg-[#FF9898] text-white px-4 py-2 rounded shadow hover:bg-[#FF7C7C] transition"
+        onClick={handleExport} className="button-29"
       >
         📤 Export Notes
       </button>
 
-      <label className="bg-[#FFD586] text-[#333] px-4 py-2 rounded shadow cursor-pointer hover:bg-[#FFC466] transition">
+      <label  className="button-29">
         📥 Import Notes
         <input
           ref={fileInputRef}

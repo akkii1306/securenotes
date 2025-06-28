@@ -41,28 +41,30 @@ const NoteView = ({ cipher, onEdit }) => {
   };
 
   return (
-    <div className="p-4 space-y-4 bg-white shadow rounded">
+    <div className="p-4 space-y-4 mt-6 bg-white/10 backdrop-blur-md rounded-xl shadow-md text-white">
       <input
-        className="border p-2 w-full"
+        className="bg-white/10 border border-white/20 p-2 rounded w-full text-white placeholder-white/60"
         type="password"
         placeholder="🔑 Decryption Password"
         value={password}
         onChange={(e) => setPassword(e.target.value)}
       />
+
       <button
         onClick={handleDecrypt}
-        className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
+        className="bg-green-400 hover:bg-green-500 text-black px-4 py-2 rounded font-semibold transition"
       >
-        Decrypt
+        🔓 Decrypt
       </button>
 
       {decrypted && (
-        <div className="mt-4 space-y-2">
-          <ReactMarkdown>{decrypted}</ReactMarkdown>
+        <div className="mt-4 space-y-3">
+          <div className="prose prose-invert max-w-none text-white">
+            <ReactMarkdown>{decrypted}</ReactMarkdown>
+          </div>
 
           {noteInfo && (
             <button
-              className="text-blue-600 text-sm hover:underline"
               onClick={() =>
                 onEdit({
                   id: noteInfo.id,
@@ -71,13 +73,14 @@ const NoteView = ({ cipher, onEdit }) => {
                   plainText: decrypted,
                 })
               }
+              className="text-blue-300 hover:underline text-sm"
             >
               ✏️ Edit Note
             </button>
           )}
 
           {meta.createdAt && (
-            <div className="text-xs text-gray-500 mt-2">
+            <div className="text-xs text-white/70">
               <p>🕓 Created: {new Date(meta.createdAt).toLocaleString()}</p>
               <p>🔄 Updated: {new Date(meta.updatedAt).toLocaleString()}</p>
             </div>

@@ -4,11 +4,11 @@ const NoteList = ({ user, onOpen, refreshFlag }) => {
   const [notes, setNotes] = useState([]);
 
   useEffect(() => {
-    const userNotes = Object.entries(localStorage)
+    const fetched = Object.entries(localStorage)
       .filter(([key]) => key.startsWith(`${user}-note-`))
-      .map(([id, data]) => {
+      .map(([id, value]) => {
         try {
-          const parsed = JSON.parse(data);
+          const parsed = JSON.parse(value);
           return {
             id,
             title: parsed.title || "Untitled",
@@ -16,7 +16,7 @@ const NoteList = ({ user, onOpen, refreshFlag }) => {
             createdAt: parsed.createdAt,
             tags: parsed.tags || [],
             pinned: parsed.pinned || false,
-            color: parsed.color || "#F3F4F6",
+            color: parsed.color || "#FFE99A",
           };
         } catch {
           return null;
@@ -29,48 +29,43 @@ const NoteList = ({ user, onOpen, refreshFlag }) => {
         return new Date(b.createdAt) - new Date(a.createdAt);
       });
 
-    setNotes(userNotes);
+    setNotes(fetched);
   }, [user, refreshFlag]);
 
   const handleDelete = (id) => {
-    const confirm = window.confirm("Delete this note?");
-    if (confirm) {
+    if (window.confirm("Delete this note?")) {
       localStorage.removeItem(id);
-      setNotes((prev) => prev.filter((n) => n.id !== id));
+      setNotes((prev) => prev.filter((note) => note.id !== id));
     }
   };
 
   return (
-    <div className="space-y-2">
-      <h2 className="font-bold text-lg">📋 Saved Notes</h2>
-      {notes.length === 0 && <p>No notes saved yet.</p>}
+    <div className="space-y-2 mt-6 text-white">
+      <h2 className="font-bold text-xl">📋 Your Notes</h2>
+      {notes.length === 0 && <p className="text-white/70">No notes yet.</p>}
       {notes.map((note) => (
         <div
           key={note.id}
           style={{ backgroundColor: note.color }}
-          className="px-4 py-2 rounded shadow-sm space-y-1"
+          className="px-4 py-2 rounded-lg shadow-sm text-black"
         >
-          <div className="flex justify-between items-center">
-            <button
-              onClick={() => onOpen(note.cipher)}
-              className="text-left font-medium w-full text-purple-700"
-            >
-              {note.pinned ? "📌 " : "📝 "}
-              {note.title}
+          <div className="flex justify-between items-center font-medium">
+            <button onClick={() => onOpen(note.cipher)} className="w-full text-left">
+              {note.pinned ? "📌" : "📝"} {note.title}
             </button>
             <button
               onClick={() => handleDelete(note.id)}
-              className="text-red-600 text-sm hover:underline"
+              className="text-red-600 text-sm hover:underline ml-2"
             >
-              🗑 Delete
+              🗑
             </button>
           </div>
-          <p className="text-xs text-gray-500">
-            📅 Created: {new Date(note.createdAt).toLocaleString()}
+          <p className="text-xs text-gray-600">
+            📅 {new Date(note.createdAt).toLocaleString()}
           </p>
           {note.tags.length > 0 && (
-            <p className="text-xs text-gray-600 italic">
-              🏷 Tags: {note.tags.join(", ")}
+            <p className="text-xs italic text-gray-700">
+              🏷 {note.tags.join(", ")}
             </p>
           )}
         </div>

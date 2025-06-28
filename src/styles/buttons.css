@@ -1,0 +1,46 @@
+.button-29 {
+  align-items: center;
+  appearance: none;
+  background-image: radial-gradient(
+    100% 100% at 100% 0,
+    #D8B4FE 0%,
+    #A48AFF 100%
+  );
+  border: 0;
+  border-radius: 8px;
+  box-shadow: rgba(164, 138, 255, 0.4) 0 2px 4px,
+              rgba(108, 79, 207, 0.4) 0 7px 13px -3px,
+              rgba(108, 79, 207, 0.5) 0 -3px 0 inset;
+  color: #1A103D;
+  cursor: pointer;
+  display: inline-flex;
+  font-family: "JetBrains Mono", monospace;
+  height: 48px;
+  justify-content: center;
+  padding: 0 20px;
+  position: relative;
+  text-decoration: none;
+  transition: box-shadow 0.15s, transform 0.15s;
+  user-select: none;
+  font-size: 16px;
+  white-space: nowrap;
+}
+
+.button-29:hover {
+  box-shadow: rgba(108, 79, 207, 0.5) 0 4px 8px,
+              rgba(108, 79, 207, 0.4) 0 7px 13px -3px,
+              #D8B4FE 0 -3px 0 inset;
+  transform: translateY(-2px);
+}
+
+.button-29:active {
+  box-shadow: #6C4FCF 0 3px 7px inset;
+  transform: translateY(2px);
+}
+
+.button-29:focus {
+  box-shadow: #D8B4FE 0 0 0 1.5px inset,
+              rgba(108, 79, 207, 0.4) 0 2px 4px,
+              rgba(108, 79, 207, 0.3) 0 7px 13px -3px,
+              #A48AFF 0 -3px 0 inset;
+}
