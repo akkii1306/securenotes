@@ -41,7 +41,7 @@ const NoteView = ({ cipher, onEdit }) => {
   };
 
   return (
-    <div className="p-4 space-y-4 mt-6 bg-white/10 backdrop-blur-md rounded-xl shadow-md text-white">
+    <div className="p-4 space-y-4 mt-6 bg-white/10 backdrop-blur-md rounded-xl shadow-md text-white w-full max-w-3xl mx-auto">
       <input
         className="bg-white/10 border border-white/20 p-2 rounded w-full text-white placeholder-white/60"
         type="password"
@@ -52,14 +52,14 @@ const NoteView = ({ cipher, onEdit }) => {
 
       <button
         onClick={handleDecrypt}
-        className="bg-green-400 hover:bg-green-500 text-black px-4 py-2 rounded font-semibold transition"
+        className="w-full sm:w-auto bg-green-400 hover:bg-green-500 text-black px-4 py-2 rounded font-semibold transition"
       >
         🔓 Decrypt
       </button>
 
       {decrypted && (
-        <div className="mt-4 space-y-3">
-          <div className="prose prose-invert max-w-none text-white">
+        <div className="mt-4 space-y-3 overflow-x-auto">
+          <div className="prose prose-invert max-w-none text-white break-words">
             <ReactMarkdown>{decrypted}</ReactMarkdown>
           </div>
 

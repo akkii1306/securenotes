@@ -40,36 +40,47 @@ const NoteList = ({ user, onOpen, refreshFlag }) => {
   };
 
   return (
-    <div className="space-y-2 mt-6 text-white">
-      <h2 className="font-bold text-xl">📋 Your Notes</h2>
-      {notes.length === 0 && <p className="text-white/70">No notes yet.</p>}
-      {notes.map((note) => (
-        <div
-          key={note.id}
-          style={{ backgroundColor: note.color }}
-          className="px-4 py-2 rounded-lg shadow-sm text-black"
-        >
-          <div className="flex justify-between items-center font-medium">
-            <button onClick={() => onOpen(note.cipher)} className="w-full text-left">
-              {note.pinned ? "📌" : "📝"} {note.title}
-            </button>
-            <button
-              onClick={() => handleDelete(note.id)}
-              className="text-red-600 text-sm hover:underline ml-2"
-            >
-              🗑
-            </button>
-          </div>
-          <p className="text-xs text-gray-600">
-            📅 {new Date(note.createdAt).toLocaleString()}
-          </p>
-          {note.tags.length > 0 && (
-            <p className="text-xs italic text-gray-700">
-              🏷 {note.tags.join(", ")}
+    <div className="mt-6 text-white w-full px-2 sm:px-4 max-w-4xl mx-auto">
+      <h2 className="font-bold text-xl mb-3">📋 Your Notes</h2>
+
+      {notes.length === 0 && (
+        <p className="text-white/70 text-center">No notes yet.</p>
+      )}
+
+      <div className="space-y-3">
+        {notes.map((note) => (
+          <div
+            key={note.id}
+            style={{ backgroundColor: note.color }}
+            className="p-4 rounded-lg shadow-md text-black break-words"
+          >
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center font-medium gap-2">
+              <button
+                onClick={() => onOpen(note.cipher)}
+                className="text-left w-full sm:w-auto sm:flex-1"
+              >
+                {note.pinned ? "📌" : "📝"} {note.title}
+              </button>
+              <button
+                onClick={() => handleDelete(note.id)}
+                className="text-red-600 text-sm hover:underline"
+              >
+                🗑 Delete
+              </button>
+            </div>
+
+            <p className="text-xs text-gray-600 mt-1">
+              📅 {new Date(note.createdAt).toLocaleString()}
             </p>
-          )}
-        </div>
-      ))}
+
+            {note.tags.length > 0 && (
+              <p className="text-xs italic text-gray-700 mt-0.5">
+                🏷 {note.tags.join(", ")}
+              </p>
+            )}
+          </div>
+        ))}
+      </div>
     </div>
   );
 };

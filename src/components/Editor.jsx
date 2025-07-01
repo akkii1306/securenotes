@@ -10,7 +10,7 @@ const Editor = ({ user, onSave, editNote, isEditing, onEditDone }) => {
   const [strength, setStrength] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [pinned, setPinned] = useState(false);
-  const [color, setColor] = useState("#FFE99A"); // default yellow
+  const [color, setColor] = useState("#FFE99A");
 
   const generateStrongPassword = () => {
     const charset =
@@ -81,27 +81,27 @@ const Editor = ({ user, onSave, editNote, isEditing, onEditDone }) => {
   };
 
   return (
-    <div className="p-4 space-y-4 border rounded-xl shadow-md bg-white/10 backdrop-blur-md text-white">
+    <div className="w-full max-w-2xl mx-auto p-4 space-y-5 border rounded-xl shadow-md bg-white/10 backdrop-blur-md text-white">
       <input
-        className="w-full p-2 bg-white/10 rounded text-white border border-white/20"
+        className="w-full p-3 bg-white/10 rounded text-white border border-white/20 placeholder-white/60"
         placeholder="Title"
         value={title}
         onChange={(e) => setTitle(e.target.value)}
       />
 
       <textarea
-        className="w-full h-36 p-2 bg-white/10 rounded text-white border border-white/20"
+        className="w-full h-40 p-3 bg-white/10 rounded text-white border border-white/20 placeholder-white/60 resize-none"
         placeholder="Write your note..."
         value={text}
         onChange={(e) => setText(e.target.value)}
       />
 
       {/* Password */}
-      <div>
+      <div className="space-y-2">
         <div className="relative">
           <input
             type={showPassword ? "text" : "password"}
-            className="w-full p-2 pr-10 bg-white/10 text-white rounded border border-white/20"
+            className="w-full p-3 pr-10 bg-white/10 text-white rounded border border-white/20 placeholder-white/60"
             placeholder="Encryption password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
@@ -109,20 +109,21 @@ const Editor = ({ user, onSave, editNote, isEditing, onEditDone }) => {
           <button
             type="button"
             onClick={() => setShowPassword((prev) => !prev)}
-            className="absolute top-2 right-3 text-white/70"
+            className="absolute top-2.5 right-3 text-white/70"
           >
             {showPassword ? "🙈" : "👁️"}
           </button>
         </div>
+
         <button
           onClick={() => setPassword(generateStrongPassword())}
-          className="text-xs mt-1 text-blue-300 hover:underline"
+          className="text-xs text-blue-300 hover:underline"
         >
           🔁 Generate Strong Password
         </button>
 
         {strength && (
-          <div className="flex items-center gap-2 mt-2">
+          <div className="flex items-center gap-2">
             <div className="w-full h-2 bg-white/20 rounded overflow-hidden">
               <div
                 className={`h-full ${
@@ -141,20 +142,20 @@ const Editor = ({ user, onSave, editNote, isEditing, onEditDone }) => {
 
       {/* Tags */}
       <input
-        className="w-full p-2 bg-white/10 text-white rounded border border-white/20"
+        className="w-full p-3 bg-white/10 text-white rounded border border-white/20 placeholder-white/60"
         placeholder="Tags (comma-separated)"
         value={tags}
         onChange={(e) => setTags(e.target.value)}
       />
 
       {/* Pin + Color */}
-      <div className="flex items-center justify-between text-sm text-white/80">
-        <label>
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-sm text-white/80">
+        <label className="flex items-center">
           <input
             type="checkbox"
             checked={pinned}
             onChange={(e) => setPinned(e.target.checked)}
-            className="mr-1"
+            className="mr-2"
           />
           📌 Pin this note
         </label>
@@ -171,7 +172,8 @@ const Editor = ({ user, onSave, editNote, isEditing, onEditDone }) => {
       </div>
 
       <button
-        onClick={handleSave} className="button-29"
+        onClick={handleSave}
+        className="button-29 w-full sm:w-auto self-center"
       >
         💾 Save Note
       </button>

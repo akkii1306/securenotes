@@ -46,14 +46,15 @@ const BackupManager = ({ user, onRefresh }) => {
   };
 
   return (
-    <div className="flex flex-wrap gap-4 mt-6">
+    <div className="flex flex-col sm:flex-row gap-4 mt-6 w-full">
       <button
-        onClick={handleExport} className="button-29"
+        onClick={handleExport}
+        className="button-29 w-full sm:w-auto text-center"
       >
         📤 Export Notes
       </button>
 
-      <label  className="button-29">
+      <label className="button-29 w-full sm:w-auto text-center cursor-pointer">
         📥 Import Notes
         <input
           ref={fileInputRef}

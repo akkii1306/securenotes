@@ -67,24 +67,22 @@ const ProtectedApp = ({ user, onLogout }) => {
       <div className="starry-bg" />
 
       {/* 🔐 Header */}
-      <header className="flex justify-between items-center px-6 py-4 z-10 relative">
+      <header className="flex flex-col sm:flex-row justify-between items-start sm:items-center px-4 sm:px-6 py-4 z-10 relative gap-4">
         <h1
-  className="text-3xl font-bold text-purple-200"
-  style={{ fontFamily: '"Doto", sans-serif', 
-    fontSize: 50
-  }}
->
-  SecureNotes
-</h1>
+          className="text-3xl sm:text-4xl font-bold text-purple-200"
+          style={{ fontFamily: '"Doto", sans-serif', fontSize: 50 }}
+        >
+          SecureNotes
+        </h1>
 
-        <div className="flex items-center gap-4">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-4 w-full sm:w-auto">
           <span className="text-sm">👋 {user}</span>
           <button
             onClick={() => {
               localStorage.removeItem("user");
               onLogout();
             }}
-            className="button-29"
+            className="button-29 w-full sm:w-auto"
           >
             Logout
           </button>
@@ -92,8 +90,8 @@ const ProtectedApp = ({ user, onLogout }) => {
       </header>
 
       {/* 🔍 Section Selector Cards */}
-      <main className="relative z-10 px-4 md:px-10 py-10 flex flex-col items-center justify-center">
-        <div className="grid md:grid-cols-2 gap-8 mt-4 max-w-5xl w-full">
+      <main className="relative z-10 px-4 sm:px-6 md:px-10 py-10 flex flex-col items-center justify-center">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 w-full max-w-5xl mt-4">
           <div
             onClick={() => setActiveSection("create")}
             className={`cursor-pointer transition duration-300 p-6 rounded-xl backdrop-blur-md bg-white/10 border border-white/20 shadow-xl hover:scale-105 ${
@@ -120,7 +118,7 @@ const ProtectedApp = ({ user, onLogout }) => {
         </div>
 
         {/* ✨ Active Section Content */}
-        <div className="w-full max-w-5xl mt-10 space-y-6">
+        <div className="w-full max-w-5xl mt-10 space-y-6 px-1">
           {activeSection === "create" && (
             <Editor
               user={user}
@@ -163,7 +161,13 @@ const ProtectedApp = ({ user, onLogout }) => {
         </div>
       </main>
 
-      <ToastContainer />
+      <ToastContainer
+        position="bottom-center"
+        autoClose={4000}
+        theme="dark"
+        pauseOnHover
+        draggable
+      />
     </div>
   );
 };

@@ -27,36 +27,26 @@ const Home = ({ user, onNavigate, onLogout }) => {
   }, []);
 
   return (
-    <div className="relative min-h-screen flex items-center justify-center text-white overflow-hidden">
+    <div className="relative min-h-screen flex items-center justify-center text-white overflow-hidden px-4">
       {/* 🌌 Starry Background */}
       <div className="starry-bg" />
 
       {/* 🪐 Main UI */}
-      <div className="z-10 text-center space-y-6 p-8 bg-white/10 backdrop-blur-md rounded-xl shadow-xl transition-all duration-500 ease-out animate-fade-in">
-        <h1 className="text-4xl font-bold text-white">Welcome, {user}!</h1>
-        <p className="text-white/80">Your secure vault beneath the stars ✨</p>
-        <div className="space-x-4">
-          {/* <button
-            onClick={onNavigate}
-            className="bg-white text-purple-700 px-4 py-2 rounded hover:bg-gray-100 transition"
-          >
+      <div className="z-10 text-center space-y-6 p-6 sm:p-8 bg-white/10 backdrop-blur-md rounded-xl shadow-xl animate-fade-in w-full max-w-xl">
+        <h1 className="text-3xl sm:text-4xl font-bold text-white">
+          Welcome, {user}!
+        </h1>
+        <p className="text-white/80 text-sm sm:text-base">
+          Your secure vault beneath the stars ✨
+        </p>
+
+        <div className="flex flex-col sm:flex-row justify-center items-center gap-3 mt-4">
+          <button onClick={onNavigate} className="button-29 w-full sm:w-auto">
             📝 Enter SecureNotes
           </button>
-          <button
-            onClick={onLogout}
-            className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition"
-          >
-            Logout
-          </button> */}
- <button onClick={onNavigate} className="button-29">
-  📝 Enter SecureNotes
-</button>
-
-<button onClick={onLogout} className="button-29">
-  🚪 Logout
-</button>
-
-
+          <button onClick={onLogout} className="button-29 w-full sm:w-auto">
+            🚪 Logout
+          </button>
         </div>
       </div>
     </div>
