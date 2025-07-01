@@ -68,7 +68,15 @@ const ProtectedApp = ({ user, onLogout }) => {
 
       {/* 🔐 Header */}
       <header className="flex justify-between items-center px-6 py-4 z-10 relative">
-        <h1 className="text-3xl font-bold text-purple-200">SecureNotes</h1>
+        <h1
+  className="text-3xl font-bold text-purple-200"
+  style={{ fontFamily: '"Doto", sans-serif', 
+    fontSize: 50
+  }}
+>
+  SecureNotes
+</h1>
+
         <div className="flex items-center gap-4">
           <span className="text-sm">👋 {user}</span>
           <button
